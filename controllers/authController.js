@@ -33,13 +33,19 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    console.log("LOGIN BODY:", req.body);
+
     const user = await User.findOne({ email });
+
+    console.log("USER:", user);
 
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
+    console.log("PASSWORD OK:", isMatch);
 
     if (!isMatch) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
@@ -48,13 +54,13 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" } // opcional pero pro
+      { expiresIn: "7d" }
     );
 
     res.json({ token });
 
   } catch (error) {
-    console.error(error);
+    console.error("🔥 ERROR REAL LOGIN:", error);
     res.status(500).json({ message: "Error en login" });
   }
 };
