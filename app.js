@@ -6,18 +6,19 @@ connectDB();
 
 const app = express();
 const allowedOrigins = [
-  "https://iridescent-souffle-808448.netlify.app",
+  "https://neon-gnome-901543.netlify.app",
   "http://localhost:3000"           
 ];
 
 app.use(cors({
   origin: function(origin, callback){
     if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      const msg = `La URL ${origin} no está permitida por CORS`;
-      return callback(new Error(msg), false);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
-    return callback(null, true);
+
+    return callback(new Error("CORS bloqueado: " + origin), false);
   }
 }));
 
