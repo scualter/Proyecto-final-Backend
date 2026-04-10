@@ -33,19 +33,15 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log("LOGIN BODY:", req.body);
-
     const user = await User.findOne({ email });
 
-    console.log("USER:", user);
-
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
+    console.log("USER ENCONTRADO:", user);
+    console.log("PASSWORD ENVIADA:", password);
+    console.log("PASSWORD BD:", user.password);
 
     const isMatch = await bcrypt.compare(password, user.password);
 
-    console.log("PASSWORD OK:", isMatch);
+    console.log("MATCH:", isMatch);
 
     if (!isMatch) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
@@ -60,7 +56,7 @@ exports.login = async (req, res) => {
     res.json({ token });
 
   } catch (error) {
-    console.error("🔥 ERROR REAL LOGIN:", error);
+    console.error("ERROR LOGIN:", error);
     res.status(500).json({ message: "Error en login" });
   }
 };
