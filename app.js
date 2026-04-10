@@ -6,7 +6,7 @@ connectDB();
 
 const app = express();
 const allowedOrigins = [
-  "https://front-end-uj5m.onrender.com",
+  "https://iridescent-souffle-808448.netlify.app",
   "http://localhost:3000"           
 ];
 
